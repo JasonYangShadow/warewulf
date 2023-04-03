@@ -25,6 +25,7 @@ var (
 // GetRootCommand returns the root cobra.Command for the application.
 func GetCommand() *cobra.Command {
 	vars := variables{}
+	vars.profileConf = node.NewConf()
 	baseCmd := &cobra.Command{
 		DisableFlagsInUseLine: true,
 		Use:                   "add PROFILE",
@@ -33,7 +34,6 @@ func GetCommand() *cobra.Command {
 		RunE:                  CobraRunE(&vars),
 		Args:                  cobra.ExactArgs(1),
 	}
-	vars.profileConf = node.NewConf()
 	vars.profileConf.CreateFlags(baseCmd,
 		[]string{"ipaddr", "ipaddr6", "ipmiaddr", "profile"})
 	baseCmd.PersistentFlags().StringVar(&vars.netName, "netname", "", "Set network name for network options")

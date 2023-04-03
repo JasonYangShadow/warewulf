@@ -19,182 +19,30 @@ func Test_Add(t *testing.T) {
 		outDb   string
 	}{
 		{
-			name:    "single node add",
-			args:    []string{"n01"},
+			name:    "single profile add",
+			args:    []string{"--yes", "p01"},
 			wantErr: false,
 			stdout:  "",
 			outDb: `WW_INTERNAL: 43
-nodeprofiles: {}
-nodes:
-  n01:
-    profiles:
-    - default
+nodeprofiles:
+  p01:
+    network devices:
+      default: {}
+nodes: {}
 `,
 		},
 		{
-			name:    "single node add, profile foo",
-			args:    []string{"--profile=foo", "n01"},
+			name:    "single profile add with netname and netdev",
+			args:    []string{"--yes", "--netname", "primary", "--netdev", "eno3", "p02"},
 			wantErr: false,
 			stdout:  "",
 			outDb: `WW_INTERNAL: 43
-nodeprofiles: {}
-nodes:
-  n01:
-    profiles:
-    - foo
-`,
-		},
-		{
-			name:    "single node add with Kernel args",
-			args:    []string{"--kernelargs=foo", "n01"},
-			wantErr: false,
-			stdout:  "",
-			outDb: `WW_INTERNAL: 43
-nodeprofiles: {}
-nodes:
-  n01:
-    kernel:
-      args: foo
-    profiles:
-    - default
-`,
-		},
-		{
-			name:    "double node add explicit",
-			args:    []string{"n01", "n02"},
-			wantErr: false,
-			stdout:  "",
-			outDb: `WW_INTERNAL: 43
-nodeprofiles: {}
-nodes:
-  n01:
-    profiles:
-    - default
-  n02:
-    profiles:
-    - default
-`,
-		},
-		{
-			name:    "single node with ipaddr6",
-			args:    []string{"--ipaddr6=fdaa::1", "n01"},
-			wantErr: false,
-			stdout:  "",
-			outDb: `WW_INTERNAL: 43
-nodeprofiles: {}
-nodes:
-  n01:
-    profiles:
-    - default
+nodeprofiles:
+  p02:
     network devices:
-      default:
-        ip6addr: fdaa::1
-`,
-		},
-		{
-			name:    "single node with ipaddr",
-			args:    []string{"--ipaddr=10.0.0.1", "n01"},
-			wantErr: false,
-			stdout:  "",
-			outDb: `WW_INTERNAL: 43
-nodeprofiles: {}
-nodes:
-  n01:
-    profiles:
-    - default
-    network devices:
-      default:
-        ipaddr: 10.0.0.1
-`,
-		},
-		{
-			name:    "three nodes with ipaddr",
-			args:    []string{"--ipaddr=10.10.0.1", "n[01-02,03]"},
-			wantErr: false,
-			stdout:  "",
-			outDb: `WW_INTERNAL: 43
-nodeprofiles: {}
-nodes:
-  n01:
-    profiles:
-    - default
-    network devices:
-      default:
-        ipaddr: 10.10.0.1
-  n02:
-    profiles:
-    - default
-    network devices:
-      default:
-        ipaddr: 10.10.0.2
-  n03:
-    profiles:
-    - default
-    network devices:
-      default:
-        ipaddr: 10.10.0.3
-`,
-		},
-		{
-			name:    "three nodes with ipaddr different network",
-			args:    []string{"--ipaddr=10.10.0.1", "--netname=foo", "n[01-03]"},
-			wantErr: false,
-			stdout:  "",
-			outDb: `WW_INTERNAL: 43
-nodeprofiles: {}
-nodes:
-  n01:
-    profiles:
-    - default
-    network devices:
-      foo:
-        ipaddr: 10.10.0.1
-  n02:
-    profiles:
-    - default
-    network devices:
-      foo:
-        ipaddr: 10.10.0.2
-  n03:
-    profiles:
-    - default
-    network devices:
-      foo:
-        ipaddr: 10.10.0.3
-`,
-		},
-		{
-			name:    "three nodes with ipaddr different network, with ipmiaddr",
-			args:    []string{"--ipaddr=10.10.0.1", "--netname=foo", "--ipmiaddr=10.20.0.1", "n[01-03]"},
-			wantErr: false,
-			stdout:  "",
-			outDb: `WW_INTERNAL: 43
-nodeprofiles: {}
-nodes:
-  n01:
-    ipmi:
-      ipaddr: 10.20.0.1
-    profiles:
-    - default
-    network devices:
-      foo:
-        ipaddr: 10.10.0.1
-  n02:
-    ipmi:
-      ipaddr: 10.20.0.2
-    profiles:
-    - default
-    network devices:
-      foo:
-        ipaddr: 10.10.0.2
-  n03:
-    ipmi:
-      ipaddr: 10.20.0.3
-    profiles:
-    - default
-    network devices:
-      foo:
-        ipaddr: 10.10.0.3
+      primary:
+        device: eno3
+nodes: {}
 `,
 		},
 	}

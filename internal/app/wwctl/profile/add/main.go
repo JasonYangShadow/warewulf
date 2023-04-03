@@ -21,8 +21,8 @@ func CobraRunE(vars *variables) func(cmd *cobra.Command, args []string) (err err
 			netDev := *vars.profileConf.NetDevs["default"]
 			vars.profileConf.NetDevs[vars.netName] = &netDev
 			delete(vars.profileConf.NetDevs, "default")
-
 		}
+
 		buffer, err := yaml.Marshal(vars.profileConf)
 		if err != nil {
 			wwlog.Error("Cant marshall nodeInfo", err)
@@ -49,6 +49,6 @@ func CobraRunE(vars *variables) func(cmd *cobra.Command, args []string) (err err
 				return
 			}
 		}
-		return apiprofile.AddProfile(&set, false)
+		return apiprofile.AddProfile(&set)
 	}
 }

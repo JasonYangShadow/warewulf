@@ -75,8 +75,9 @@ func (config *NodeYaml) AddProfile(profileID string) (NodeInfo, error) {
 	}
 
 	config.NodeProfiles[profileID] = &node
-
+	config.NodeProfiles[profileID].NetDevs = make(map[string]*NetDevs)
 	n.Id.Set(profileID)
+	n.NetDevs = make(map[string]*NetDevEntry)
 
 	return n, nil
 }
