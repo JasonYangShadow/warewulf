@@ -10,7 +10,6 @@ import (
 )
 
 func CopyFile(src string, dst string) error {
-
 	wwlog.Debug("Copying '%s' to '%s'", src, dst)
 
 	// Open source file
@@ -27,6 +26,15 @@ func CopyFile(src string, dst string) error {
 		return err
 	}
 
+	parent := filepath.Dir(dst)
+	if _, err := os.Stat(parent); os.IsNotExist(err) {
+		wwlog.Debug("Create dir: %s", parent)
+		err = os.MkdirAll(parent, srcInfo.Mode())
+		if err != nil {
+			wwlog.Error("Could not create parent dif: %s: %v", parent, err)
+			return err
+		}
+	}
 	dstFD, err := os.OpenFile(dst, os.O_RDWR|os.O_CREATE|os.O_TRUNC, srcInfo.Mode())
 	if err != nil {
 		wwlog.Error("Could not create destination file %s: %s", dst, err)
@@ -95,7 +103,6 @@ func CopyFiles(source string, dest string) error {
 
 		return nil
 	})
-
 	if err != nil {
 		return err
 	}
@@ -103,4 +110,4 @@ func CopyFiles(source string, dest string) error {
 	return nil
 }
 
-//TODO: func CopyRecursive ...
+// TODO: func CopyRecursive ...
