@@ -27,3 +27,14 @@ func ImageParentDir() string {
 func ImageFile(name string) string {
 	return path.Join(ImageParentDir(), name+".img")
 }
+
+// InitramfsBootPath returns the dracut built initramfs path, as dracut built initramfs inside container
+// the function returns host path of the built file
+func InitramfsBootPath(image, kver string) string {
+	return path.Join(RootFsDir(image), "boot", "initramfs-"+kver+".img")
+}
+
+// InitramfsProvisionPath returns path for provisioning built initramfs, similar to ImageFile
+func InitramfsProvisionPath(kver string) string {
+	return path.Join(ImageParentDir(), "initramfs-"+kver+".img")
+}
