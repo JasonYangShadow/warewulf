@@ -119,7 +119,9 @@ func BuildAllOverlays(nodes []node.Node, allNodes []node.Node, workerCount int) 
 			if err := BuildOverlay(n, allNodes, "system", n.SystemOverlay); err != nil {
 				errChan <- fmt.Errorf("could not build system overlays %v for node %s: %w", n.SystemOverlay, n.Id(), err)
 			} else {
-				registry.Nodes[n.Id()].SystemOverlayMTime = time.Now().Format(time.RFC3339)
+				if node, ok := registry.Nodes[n.Id()]; ok {
+					node.SystemOverlayMTime = time.Now().Format(time.RFC3339)
+				}
 			}
 
 			wwlog.Info("Building runtime overlay image for %s", n.Id())
@@ -130,7 +132,9 @@ func BuildAllOverlays(nodes []node.Node, allNodes []node.Node, workerCount int) 
 			if err := BuildOverlay(n, allNodes, "runtime", n.RuntimeOverlay); err != nil {
 				errChan <- fmt.Errorf("could not build runtime overlays %v for node %s: %w", n.RuntimeOverlay, n.Id(), err)
 			} else {
-				registry.Nodes[n.Id()].RuntimeOverlayMTime = time.Now().Format(time.RFC3339)
+				if node, ok := registry.Nodes[n.Id()]; ok {
+					node.RuntimeOverlayMTime = time.Now().Format(time.RFC3339)
+				}
 			}
 		}
 		wg.Done()
