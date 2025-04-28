@@ -173,6 +173,6 @@ func TestNodeAPI(t *testing.T) {
 		assert.NoError(t, err)
 		assert.NoError(t, resp.Body.Close())
 
-		ja.Assert(string(body), `{"kernel": {"version": "v1.0.1-newversion", "args": ["kernel-args"]}, "runtime overlay mtime":"<<PRESENCE>>}", "system overlay mtime":"<<PRESENCE>>"`)
+		ja.Assert(string(body), `{"kernel": {"version": "v1.0.1-newversion", "args": ["kernel-args"]}, "runtime overlay mtime":"<<PRESENCE>>", "system overlay mtime":"<<PRESENCE>>"}`)
 	})
 }
